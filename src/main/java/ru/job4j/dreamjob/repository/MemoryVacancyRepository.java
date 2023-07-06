@@ -30,12 +30,12 @@ public class MemoryVacancyRepository implements VacancyRepository {
     private final Map<Integer, Vacancy> vacancies = new HashMap<>();
 
     private MemoryVacancyRepository() {
-        save(new Vacancy(0, "Intern Java Developer", "Dream job for intern", LocalDateTime.now()));
-        save(new Vacancy(0, "Junior Java Developer", "Dream job for junior", LocalDateTime.now()));
-        save(new Vacancy(0, "Junior+ Java Developer", "Dream job for junior+", LocalDateTime.now()));
-        save(new Vacancy(0, "Middle Java Developer", "Dream job for middle", LocalDateTime.now()));
-        save(new Vacancy(0, "Middle+ Java Developer", "Dream job for middle+", LocalDateTime.now()));
-        save(new Vacancy(0, "Senior Java Developer", "Dream job for senior", LocalDateTime.now()));
+        save(new Vacancy(0, "Intern Java Developer", "Description of dream job for intern", LocalDateTime.now()));
+        save(new Vacancy(0, "Junior Java Developer", "Description of dream job for junior", LocalDateTime.now()));
+        save(new Vacancy(0, "Junior+ Java Developer", "Description of dream job for junior+", LocalDateTime.now()));
+        save(new Vacancy(0, "Middle Java Developer", "Description of dream job for middle", LocalDateTime.now()));
+        save(new Vacancy(0, "Middle+ Java Developer", "Description of dream job for middle+", LocalDateTime.now()));
+        save(new Vacancy(0, "Senior Java Developer", "Description of dream job for senior", LocalDateTime.now()));
     }
 
     public static MemoryVacancyRepository getInstance() {
