@@ -42,4 +42,18 @@ public class VacancyController {
         model.addAttribute("vacancies", vacancyRepository.findAll());
         return "vacancies/list";
     }
+
+    /**
+     * В данном методе аннотация @GetMapping
+     * здесь говорит SpringBoot, что по
+     * заданному URI (/vacancies/create)
+     * нужно обслужить HTTP GET запрос.
+     *
+     * <p>GET метод браузер использует
+     * при открытии страниц.
+     */
+    @GetMapping("/create")
+    public String getCreationPage() {
+        return "vacancies/create";
+    }
 }
