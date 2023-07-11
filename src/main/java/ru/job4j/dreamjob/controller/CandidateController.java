@@ -18,4 +18,18 @@ public class CandidateController {
         model.addAttribute("candidates", candidateRepository.findAll());
         return "candidates/list";
     }
+
+    /**
+     * В данном методе аннотация @GetMapping
+     * здесь говорит SpringBoot, что по
+     * заданному URI (/candidates/create)
+     * нужно обслужить HTTP GET запрос.
+     *
+     * <p>GET метод браузер использует
+     * при открытии страниц.
+     */
+    @GetMapping("/create")
+    public String getCreationPage() {
+        return "candidates/create";
+    }
 }

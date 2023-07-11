@@ -1,5 +1,6 @@
 package ru.job4j.dreamjob.repository;
 
+import org.springframework.stereotype.Repository;
 import ru.job4j.dreamjob.model.Vacancy;
 
 import java.time.LocalDateTime;
@@ -21,6 +22,7 @@ import java.util.Optional;
  * слоя без необходимости зависеть
  * от слоя сервиса.
  */
+@Repository
 public class MemoryVacancyRepository implements VacancyRepository {
 
     private static final MemoryVacancyRepository INSTANCE = new MemoryVacancyRepository();
