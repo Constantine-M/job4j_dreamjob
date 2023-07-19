@@ -1,11 +1,17 @@
 package ru.job4j.dreamjob.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import ru.job4j.dreamjob.model.Vacancy;
 import ru.job4j.dreamjob.repository.MemoryVacancyRepository;
 import ru.job4j.dreamjob.repository.VacancyRepository;
+
+import java.time.LocalDateTime;
 
 /**
  * Данный класс описывает контроллер.
@@ -55,5 +61,43 @@ public class VacancyController {
     @GetMapping("/create")
     public String getCreationPage() {
         return "vacancies/create";
+    }
+
+    /**
+     * Данный метод обрабатывает запрос
+     * на создание вакансии.
+     *
+     * <p>Этот метод можно реализовать по-разному.
+     *
+     * <p>1.Используя интерфейс
+     * {@link HttpServletRequest}, мы получили
+     * введенные пользователем данные через метод
+     * {@link HttpServletRequest#getParameter}.
+     *
+     * <p>2.Используя аннотацию {@link ModelAttribute}.
+     * @ModelAttribute сообщаем Spring,
+     * чтобы тот собрал объект {@link Vacancy}
+     * из параметров запроса. При этом
+     * следует НЕ ЗАБЫВАТЬ создавать пустой
+     * конструктор в классе модели и
+     * проинициализировать поля, которые
+     * не участвуют при маппинге.
+     *
+     * <p>Также обрати внимание на то, что
+     * здесь мы уже используем аннотацию
+     * {@link PostMapping}.
+     *
+     * <p>Ключевое слово redirect, которое
+     * сообщает Spring, чтобы после выполнения
+     * метода create перейти к обработке ссылки
+     * /vacancies GET, то есть вывести
+     * таблицу со списком всех вакансий.
+     *
+     * @return возврат к странице с вакансиями.
+     */
+    @PostMapping("/create")
+    public String create(@ModelAttribute Vacancy vacancy) {
+        vacancyRepository.save(vacancy);
+        return "redirect:/vacancies";
     }
 }
