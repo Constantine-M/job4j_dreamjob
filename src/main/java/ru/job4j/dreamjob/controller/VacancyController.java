@@ -3,10 +3,7 @@ package ru.job4j.dreamjob.controller;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import ru.job4j.dreamjob.model.Vacancy;
 import ru.job4j.dreamjob.repository.MemoryVacancyRepository;
 import ru.job4j.dreamjob.repository.VacancyRepository;
@@ -98,6 +95,66 @@ public class VacancyController {
     @PostMapping("/create")
     public String create(@ModelAttribute Vacancy vacancy) {
         vacancyRepository.save(vacancy);
+        return "redirect:/vacancies";
+    }
+
+    /**
+     * Данный метод обрабатывает запрос
+     * на поиск вакансии по идентификатору,
+     * извлекает вакансию из репозитория
+     * и возвращает на страницу.
+     *
+     * <p>Здесь мы используем аннотацию
+     * {@link PathVariable}, которая
+     * позволяет работать с параметрами,
+     * передаваемыми через адрес запроса.
+     *
+     * @return страница просмотра вакансии.
+     */
+    @GetMapping("/{id}")
+    public String getByID(Model model, @PathVariable int id) {
+        var vacancyOptional = vacancyRepository.findById(id);
+        if (vacancyOptional.isEmpty()) {
+            model.addAttribute("message", "Вакансия с указанным идентификатором не найдена");
+            return "errors/404";
+        }
+        model.addAttribute("vacancy", vacancyOptional.get());
+        return "vacancies/one";
+    }
+
+    /**
+     * Производит обновление и если
+     * оно произошло, то делает
+     * перенаправление на страницу
+     * со всеми вакансиями.
+     *
+     * @return страница со всеми вакансиями.
+     */
+    @PostMapping("/update")
+    public String update(@ModelAttribute Vacancy vacancy, Model model) {
+        var isUpdated = vacancyRepository.update(vacancy);
+        if (!isUpdated) {
+            model.addAttribute("message", "Вакансия с указанным идентификатором не найдена");
+            return "errors/404";
+        }
+        return "redirect:/vacancies";
+    }
+
+    /**
+     * Производит удаление и если
+     * оно произошло, то делает
+     * перенаправление на страницу
+     * со всеми вакансиями.
+     *
+     * @return страница со всеми вакансиями.
+     */
+    @GetMapping("/delete/{id}")
+    public String delete(Model model, @PathVariable int id) {
+        var isDeleted = vacancyRepository.deleteById(id);
+        if (!isDeleted) {
+            model.addAttribute("message", "Вакансия с указанным идентификатором не найдена");
+            return "errors/404";
+        }
         return "redirect:/vacancies";
     }
 }
