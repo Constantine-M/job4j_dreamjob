@@ -1,0 +1,52 @@
+<!--Footer – это элемент веб-страницы, располагающийся в нижней части страницы или, как часто говорят, в подвале сайта-->
+<!--Этот элемент полностью противоположен хедеру / шапке-->
+<!--Его основное назначение заключается в размещении дополнительной информации, полезных и технических ссылок-->
+<div th:fragment="footer">
+  <footer class="text-center">
+    <!-- Grid container -->
+    <div class="container p-3">
+      <!--Grid row-->
+      <!--Горизонтальное выравнивание по центру с помощью justify-content-center-->
+      <div class="row justify-content-center">
+        <!--Grid column-->
+        <!--Example - col-md-4
+            col (column) — столбец строки
+            md — идентификатор устройства
+            4 — количество условных единиц(столбцов) ширины будет занимать блок, из 12
+            ** col-md-*: для устройств с шириной экрана от 992 пикселя и выше
+            ** lg-*: для устройств с шириной экрана от 1200 пикселей и выше
+            ** col col-md-2 - это мы сжали наше пространство до 2 столбцов
+            ** offset-md-1 - для сдвига колонки вправо на 1 столбец-->
+        <div class="col col-md-2">
+          <h5 class="text-uppercase">проект</h5>
+          <ul class="list-unstyled mb-0">
+            <li>
+              <a href="https://github.com/Constantine-M/job4j_dreamjob" class="text-dark">DreamJob</a>
+            </li>
+          </ul>
+        </div>
+        <div class="col col-md-2">
+              <h5 class="text-uppercase">контакты</h5>
+            <!--** list-unstyled - для создания нумерованных и маркированных списков без использования стилей
+                необходимо применить класс .list-unstyled к соответствующим тегам <ul> или <ol>
+                ** mb-0 - margin и padding отступы (изнутри наружу: контент -> padding (внутренний отступ) -> margin (внешний отступ))
+                {property}{sides}-{breakpoint}-{size} для sm, md, lg, и xl
+                Вместо {property} необходимо указать первую букву названия отступа, т.е. m или p (m – для margin, p – для padding)
+                Вместо {sides} необходимо указать сторону (t - для задания отступа только сверху, b – снизу, l – слева, r – справа)
+                или несколько сторон (x – слева и справа, y – сверху и снизу).
+                Если {sides} не указать, то тогда отступ будет установлен для всех 4 сторон элемента
+                Вместо {size} необходимо задать величину отступа-->
+              <ul class="list-unstyled mb-0">
+                  <li>
+                      <a href="https://t.me/MAConsta" class="text-dark">Telegram</a>
+                  </li>
+              </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center p-3 bg-dark">
+      <a class="text-light" href="https://job4j.ru">Job4j</a>
+    </div>
+  </footer>
+</div>
