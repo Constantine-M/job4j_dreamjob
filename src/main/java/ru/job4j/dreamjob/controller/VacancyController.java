@@ -8,8 +8,6 @@ import ru.job4j.dreamjob.model.Vacancy;
 import ru.job4j.dreamjob.repository.MemoryVacancyRepository;
 import ru.job4j.dreamjob.repository.VacancyRepository;
 
-import java.time.LocalDateTime;
-
 /**
  * Данный класс описывает контроллер.
  *
