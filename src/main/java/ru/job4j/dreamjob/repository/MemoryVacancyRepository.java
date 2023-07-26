@@ -31,7 +31,7 @@ public class MemoryVacancyRepository implements VacancyRepository {
 
     private final Map<Integer, Vacancy> vacancies = new HashMap<>();
 
-    private MemoryVacancyRepository() {
+    public MemoryVacancyRepository() {
         save(new Vacancy(0, "Intern Java Developer", "Description of dream job for intern", LocalDateTime.now()));
         save(new Vacancy(0, "Junior Java Developer", "Description of dream job for junior", LocalDateTime.now()));
         save(new Vacancy(0, "Junior+ Java Developer", "Description of dream job for junior+", LocalDateTime.now()));
@@ -40,9 +40,6 @@ public class MemoryVacancyRepository implements VacancyRepository {
         save(new Vacancy(0, "Senior Java Developer", "Description of dream job for senior", LocalDateTime.now()));
     }
 
-    public static MemoryVacancyRepository getInstance() {
-        return INSTANCE;
-    }
 
     @Override
     public Vacancy save(Vacancy vacancy) {

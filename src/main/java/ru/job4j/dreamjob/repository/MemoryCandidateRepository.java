@@ -13,22 +13,16 @@ import java.util.Optional;
 @Repository
 public class MemoryCandidateRepository implements CandidateRepository {
 
-    private static final MemoryCandidateRepository INSTANCE = new MemoryCandidateRepository();
-
     private int nextId = 1;
 
     private final Map<Integer, Candidate> candidates = new HashMap<>();
 
-    private MemoryCandidateRepository() {
+    public MemoryCandidateRepository() {
         save(new Candidate(0, "Jasper", "Vampire. An expert with any weapon.", LocalDateTime.now()));
         save(new Candidate(0, "Alice", "Vampire also. Sees the future.", LocalDateTime.now()));
         save(new Candidate(0, "Jakob", "Werewolf. Can fix motorcycles.", LocalDateTime.now()));
         save(new Candidate(0, "Bella", "Became a vampire. Gave birth to a vampire.", LocalDateTime.now()));
         save(new Candidate(0, "Edward", "Tired of being a vampire. Until he met Bella.", LocalDateTime.now()));
-    }
-
-    public static MemoryCandidateRepository getInstance() {
-        return INSTANCE;
     }
 
     @Override
