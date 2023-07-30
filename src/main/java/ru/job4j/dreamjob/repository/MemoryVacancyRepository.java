@@ -33,12 +33,12 @@ public class MemoryVacancyRepository implements VacancyRepository {
     private final Map<Integer, Vacancy> vacancies = new ConcurrentHashMap<>();
 
     public MemoryVacancyRepository() {
-        save(new Vacancy(0, "Intern Java Developer", "Description of dream job for intern", LocalDateTime.now(), true));
-        save(new Vacancy(0, "Junior Java Developer", "Description of dream job for junior", LocalDateTime.now(), true));
-        save(new Vacancy(0, "Junior+ Java Developer", "Description of dream job for junior+", LocalDateTime.now(), true));
-        save(new Vacancy(0, "Middle Java Developer", "Description of dream job for middle", LocalDateTime.now(), true));
-        save(new Vacancy(0, "Middle+ Java Developer", "Description of dream job for middle+", LocalDateTime.now(), true));
-        save(new Vacancy(0, "Senior Java Developer", "Description of dream job for senior", LocalDateTime.now(), true));
+        save(new Vacancy(0, "Intern Java Developer", "Description of dream job for intern", LocalDateTime.now(), true, 1));
+        save(new Vacancy(0, "Junior Java Developer", "Description of dream job for junior", LocalDateTime.now(), true, 3));
+        save(new Vacancy(0, "Junior+ Java Developer", "Description of dream job for junior+", LocalDateTime.now(), true, 3));
+        save(new Vacancy(0, "Middle Java Developer", "Description of dream job for middle", LocalDateTime.now(), true, 2));
+        save(new Vacancy(0, "Middle+ Java Developer", "Description of dream job for middle+", LocalDateTime.now(), true, 2));
+        save(new Vacancy(0, "Senior Java Developer", "Description of dream job for senior", LocalDateTime.now(), true, 1));
     }
 
 
@@ -74,7 +74,12 @@ public class MemoryVacancyRepository implements VacancyRepository {
         return vacancies.computeIfPresent(
                 vacancy.getId(),
                 (id, oldVacancy) -> new Vacancy(
-                        oldVacancy.getId(), vacancy.getTitle(), vacancy.getDescription(), vacancy.getCreationDate(), vacancy.getVisible()
+                        oldVacancy.getId(),
+                        vacancy.getTitle(),
+                        vacancy.getDescription(),
+                        vacancy.getCreationDate(),
+                        vacancy.getVisible(),
+                        vacancy.getCityId()
                 )
         ) != null;
     }
