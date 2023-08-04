@@ -7,7 +7,6 @@ import ru.job4j.dreamjob.model.Candidate;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
@@ -22,11 +21,11 @@ public class MemoryCandidateRepository implements CandidateRepository {
     private final Map<Integer, Candidate> candidates = new ConcurrentHashMap<>();
 
     public MemoryCandidateRepository() {
-        save(new Candidate(0, "Jasper", "Vampire. An expert with any weapon.", LocalDateTime.now(), 4));
-        save(new Candidate(0, "Alice", "Vampire also. Sees the future.", LocalDateTime.now(), 4));
-        save(new Candidate(0, "Jakob", "Werewolf. Can fix motorcycles.", LocalDateTime.now(), 4));
-        save(new Candidate(0, "Bella", "Became a vampire. Gave birth to a vampire.", LocalDateTime.now(), 4));
-        save(new Candidate(0, "Edward", "Tired of being a vampire. Until he met Bella.", LocalDateTime.now(), 4));
+        save(new Candidate(0, "Jasper", "Vampire. An expert with any weapon.", LocalDateTime.now(), 4, 1));
+        save(new Candidate(0, "Alice", "Vampire also. Sees the future.", LocalDateTime.now(), 4, 2));
+        save(new Candidate(0, "Jakob", "Werewolf. Can fix motorcycles.", LocalDateTime.now(), 4, 3));
+        save(new Candidate(0, "Bella", "Became a vampire. Gave birth to a vampire.", LocalDateTime.now(), 4, 4));
+        save(new Candidate(0, "Edward", "Tired of being a vampire. Until he met Bella.", LocalDateTime.now(), 4, 5));
     }
 
     @Override
@@ -50,7 +49,8 @@ public class MemoryCandidateRepository implements CandidateRepository {
                         candidate.getName(),
                         candidate.getDescription(),
                         candidate.getCreationDate(),
-                        candidate.getCityId())
+                        candidate.getCityId(),
+                        candidate.getFileId())
         ) != null;
     }
 

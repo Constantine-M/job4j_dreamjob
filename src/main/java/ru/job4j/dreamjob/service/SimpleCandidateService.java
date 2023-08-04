@@ -1,6 +1,7 @@
 package ru.job4j.dreamjob.service;
 
 import org.springframework.stereotype.Service;
+import ru.job4j.dreamjob.dto.FileDto;
 import ru.job4j.dreamjob.model.Candidate;
 import ru.job4j.dreamjob.repository.CandidateRepository;
 import java.util.Collection;
@@ -20,23 +21,75 @@ public class SimpleCandidateService implements CandidateService {
 
     private final CandidateRepository candidateRepository;
 
-    public SimpleCandidateService(CandidateRepository candidateRepository) {
+    private final FileService fileService;
+
+    public SimpleCandidateService(CandidateRepository candidateRepository, FileService fileService) {
         this.candidateRepository = candidateRepository;
+        this.fileService = fileService;
     }
 
     @Override
-    public Candidate save(Candidate candidate) {
+    public Candidate save(Candidate candidate, FileDto image) {
+        saveNewFile(candidate, image);
         return candidateRepository.save(candidate);
     }
 
-    @Override
-    public boolean deleteById(int id) {
-        return candidateRepository.deleteById(id);
+    private void saveNewFile(Candidate candidate, FileDto image) {
+        var file = fileService.save(image);
+        candidate.setFileId(file.getId());
     }
 
+    /**
+     * Данный метод удаляет резюме кандидата
+     * по его ID.
+     *
+     * <p>Если резюме с таким ID
+     * имеется, то сначала удаляем
+     * резюме из репозитория, а затем
+     * файл, прикрепленный к этому резюме.
+     */
     @Override
-    public boolean update(Candidate candidate) {
-        return candidateRepository.update(candidate);
+    public boolean deleteById(int id) {
+        var fileOptional = candidateRepository.findById(id);
+        if (fileOptional.isEmpty()) {
+            return false;
+        }
+        var isDeleted = candidateRepository.deleteById(id);
+        fileService.deleteById(fileOptional.get().getFileId());
+        return isDeleted;
+    }
+
+    /**
+     * Данный метод обновляет данные
+     * внутри кандидата.
+     *
+     * <p>При обновлении кандидата
+     * сохраняется связанный с ним файл.
+     *
+     * <p>Старый файл можем удалить в
+     * последнюю очередь, т.к. у каждого
+     * файла свой ID, а в резюме кандидата
+     * мы лишь прикрепляем ссылку на
+     * этот файл.
+     *
+     * @param candidate обновляемое резюме кандидата.
+     * @param image файл, который будет привязан
+     *              к кандидату.
+     * @return true если обновление
+     * прошло успешно.
+     */
+    @Override
+    public boolean update(Candidate candidate, FileDto image) {
+        var isNewFileEmpty = image.getContent().length == 0;
+        if (isNewFileEmpty) {
+            return candidateRepository.update(candidate);
+        }
+        /* если передан новый не пустой файл, то старый удаляем, а новый сохраняем */
+        var oldFileId = candidate.getFileId();
+        saveNewFile(candidate, image);
+        var isUpdated = candidateRepository.update(candidate);
+        fileService.deleteById(oldFileId);
+        return isUpdated;
     }
 
     @Override
