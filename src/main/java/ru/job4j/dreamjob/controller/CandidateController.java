@@ -40,7 +40,7 @@ public class CandidateController {
      * заданному URI (/candidates/create)
      * нужно обслужить HTTP GET запрос.
      *
-     * <p>GET метод браузер использует
+     * GET метод браузер использует
      * при открытии страниц.
      */
     @GetMapping("/create")
@@ -53,7 +53,7 @@ public class CandidateController {
      * Данный метод обрабатывает запрос
      * на создание кандидата.
      *
-     * <p>1.Используя аннотацию {@link ModelAttribute}.
+     * 1.Используя аннотацию {@link ModelAttribute}.
      * @ModelAttribute сообщаем Spring,
      * чтобы тот собрал объект {@link Candidate}
      * из параметров запроса. При этом
@@ -62,17 +62,17 @@ public class CandidateController {
      * проинициализировать поля, которые
      * не участвуют при маппинге.
      *
-     * <p>2.Используя аннотацию {@link RequestParam}
+     * 2.Используя аннотацию {@link RequestParam}
      * и класс {@link MultipartFile}
      * мы получаем файл из формы. Название
      * параметра соответствует name из формы.
      *
-     * <p>3.Благодаря конструкции
+     * 3.Благодаря конструкции
      * <li>new FileDto(file.getOriginalFilename(), file.getBytes())</li>
      * мы передаем "упакованные" в DTO данные
      * для обработки в сервисе.
      *
-     * <p>Также обрати внимание на то, что
+     * Также обрати внимание на то, что
      * здесь мы уже используем аннотацию
      * {@link PostMapping}.
      */

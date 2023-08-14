@@ -25,7 +25,6 @@ import java.util.concurrent.atomic.AtomicInteger;
  * от слоя сервиса.
  */
 @ThreadSafe
-@Repository
 public class MemoryVacancyRepository implements VacancyRepository {
 
     private final AtomicInteger nextId = new AtomicInteger(0);

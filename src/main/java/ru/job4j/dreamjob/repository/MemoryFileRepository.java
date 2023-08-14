@@ -18,7 +18,6 @@ import java.util.concurrent.atomic.AtomicInteger;
  * сводится к логике работы с данными.
  */
 @ThreadSafe
-@Repository
 public class MemoryFileRepository implements FileRepository {
 
     private final AtomicInteger nextId = new AtomicInteger(0);

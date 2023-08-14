@@ -14,12 +14,12 @@ import ru.job4j.dreamjob.service.VacancyService;
 /**
  * Данный класс описывает контроллер.
  *
- * <p>Controller (Контроллер) обрабатывает
+ * Controller (Контроллер) обрабатывает
  * запрос пользователя, создаёт
  * соответствующую Модель и передаёт
  * её для отображения в Вид.
  *
- * <p>В нашем случае контроллер заполняет
+ * В нашем случае контроллер заполняет
  * {@link Model} и передает два объекта
  * в Thymeleaf – Model и View(vacancies.html).
  * Thymeleaf генерирует HTML и
@@ -48,7 +48,7 @@ public class VacancyController {
      * Он используется Thymeleaf для поиска
      * объектов, которые нужны отобразить на виде.
      *
-     * <p>В Model мы добавляем объект vacancies.
+     * В Model мы добавляем объект vacancies.
      *
      * @param model модель, которую необходимо
      *              отобразить на виде.
@@ -65,7 +65,7 @@ public class VacancyController {
      * заданному URI (/vacancies/create)
      * нужно обслужить HTTP GET запрос.
      *
-     * <p>GET метод браузер использует
+     * GET метод браузер использует
      * при открытии страниц.
      */
     @GetMapping("/create")
@@ -78,14 +78,14 @@ public class VacancyController {
      * Данный метод обрабатывает запрос
      * на создание вакансии.
      *
-     * <p>Этот метод можно реализовать по-разному.
+     * Этот метод можно реализовать по-разному.
      *
-     * <p>1.Используя интерфейс
+     * 1.Используя интерфейс
      * {@link HttpServletRequest}, мы получили
      * введенные пользователем данные через метод
      * {@link HttpServletRequest#getParameter}.
      *
-     * <p>2.Используя аннотацию {@link ModelAttribute}.
+     * 2.Используя аннотацию {@link ModelAttribute}.
      * @ModelAttribute сообщаем Spring,
      * чтобы тот собрал объект {@link Vacancy}
      * из параметров запроса. При этом
@@ -94,12 +94,12 @@ public class VacancyController {
      * проинициализировать поля, которые
      * не участвуют при маппинге.
      *
-     * <p>3.Используя аннотацию {@link RequestParam}
+     * 3.Используя аннотацию {@link RequestParam}
      * и класс {@link MultipartFile}
      * мы получаем файл из формы. Название
      * параметра соответствует name из формы.
      *
-     * <p>4.Благодаря конструкции
+     * 4.Благодаря конструкции
      * <li>new FileDto(file.getOriginalFilename(), file.getBytes())</li>
      * мы передаем "упакованные" в DTO данные
      * для обработки в сервисе.

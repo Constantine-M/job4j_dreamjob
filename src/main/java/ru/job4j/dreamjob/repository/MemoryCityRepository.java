@@ -15,7 +15,6 @@ import java.util.Map;
  * с данными через память (храним данные
  * в памяти).
  */
-@Repository
 public class MemoryCityRepository implements CityRepository {
 
     private final Map<Integer, City> cities = new HashMap<>() {
