@@ -60,7 +60,7 @@ public class SimpleFileService implements FileService {
      * Данный метод создает уникальный путь для
      * нового файла.
      *
-     * <p>UUID - это просто рандомная строка
+     * UUID - это просто рандомная строка
      * определенного формата.
      *
      * @param sourceName имя файла DTO.
@@ -82,14 +82,14 @@ public class SimpleFileService implements FileService {
      * Данный метод позволяет найти
      * объект {@link FileDto} по его ID.
      *
-     * <p>Здесь мы используем метод
+     * Здесь мы используем метод
      * {@link  Optional#of} Разница от
      * {@link  Optional#ofNullable} в том, что
      * Optional.of бросит исключение
      * NullPointerException, если ему передать
      * значение null в качестве параметра.
      *
-     * <p>Optional.ofNullable вернёт Optional,
+     * Optional.ofNullable вернёт Optional,
      * не содержащий значение, если ему передать null.
      */
     @Override
@@ -119,7 +119,7 @@ public class SimpleFileService implements FileService {
     /**
      * Данный метод удаляет файл по ID.
      *
-     * <p>Сначала удаляем данные, а
+     * Сначала удаляем данные, а
      * потом объект DTO из карты по его ID.
      */
     @Override

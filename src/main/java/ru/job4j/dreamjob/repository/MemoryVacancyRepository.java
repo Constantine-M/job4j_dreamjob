@@ -16,7 +16,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * Данный класс описывает реализацию
  * репозитория.
  *
- * <p>Интерфейсы репозиториев принадлежат
+ * Интерфейсы репозиториев принадлежат
  * к слою домена. Реализация же относятся
  * к слою приложения. Это означает,
  * что мы свободны при построении
@@ -57,7 +57,7 @@ public class MemoryVacancyRepository implements VacancyRepository {
      * Данный метод обновляет запись
      * в вакансии.
      *
-     * <p>Здесь мы используем метод
+     * Здесь мы используем метод
      * {@link Map#computeIfPresent}.
      * Таким образом, если мы находим
      * вакансию по ID, то перезаписываем
@@ -87,7 +87,7 @@ public class MemoryVacancyRepository implements VacancyRepository {
     /**
      * Данный метод находит вакансию по ID.
      *
-     * <p>Здесь используется {@link Optional}.
+     * Здесь используется {@link Optional}.
      * Метод {@link Optional#ofNullable}
      * возвращает {@link Vacancy} если
      * оно будет != null, иначе вернется
