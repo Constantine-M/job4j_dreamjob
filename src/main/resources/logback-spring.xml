@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--    Enable debugging of the logback setup (debug="true")-->
+<configuration debug="true">
+
+    <!--    The next example shows a variable declared at the beginning of the configuration file.
+            It is then used further down the file to specify the location of the output file
+            Переменная простая короче, которую мы потом используем в нескольких местах ниже-->
+    <property name="LOG_FILE" value="./logs"/>
+
+    <appender name="Console"
+              class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>
+                %green(%d{ISO8601}) %highlight(%-5level) [%blue(%t)] %yellow(%C): %msg%n%throwable
+            </Pattern>
+        </layout>
+    </appender>
+
+    <!--    RollingFileAppender extends FileAppender with the capability to rollover log files.
+            For example, RollingFileAppender can log to a file named log.txt file and, once a certain
+            condition is met, change its logging target to another file.
+            Короче, RollingFileAppender - это то же самое что и FileAppender, но гибче.-->
+    <appender name="RollingFile"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_FILE}/dream-job.log</file>
+
+        <!-- encoders are assigned the type
+         ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
+        <encoder
+                class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>%d %p %C [%t] %m%n</Pattern>
+        </encoder>
+
+        <!--    This option is the component that will dictate RollingFileAppender's behavior when rollover occurs.
+                RollingPolicy is responsible for the rollover procedure which involves file moving and renaming.
+                Короче, здесь мы описываем политики - как будет называться файл/что будет с ним происходить/
+                указание времени и много другое-->
+        <rollingPolicy
+                class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+
+            <!--    rollover daily and when the file reaches 1 MegaByte
+                    Когда файл достигает размера 1 Мб, то он именуется
+                    согласно шаблону и помещается в архивную директорию-->
+            <fileNamePattern>
+                ${LOG_FILE}/archived/dream-job-%d{yyyy-MM-dd}.%i.log
+            </fileNamePattern>
+
+            <!--    Вот здесь как раз и настроено ограничение размера файла в 1 Мб.
+                    Каждый файл размером 1 Мб может храниться 60 дней.
+                    Общий размер логов ограничен 5 Мегабайтами.
+                    Если смиксовать time based and size based rolling политики, то
+                    получим timeBasedFileNamingAndTriggeringPolicy-->
+            <timeBasedFileNamingAndTriggeringPolicy
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>1MB</maxFileSize>
+                <maxHistory>60</maxHistory>
+                <totalSizeCap>5MB</totalSizeCap>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+    </appender>
+
+    <!-- LOG everything at DEBUG level -->
+    <root level="DEBUG">
+        <appender-ref ref="RollingFile" />
+        <appender-ref ref="Console" />
+    </root>
+</configuration>

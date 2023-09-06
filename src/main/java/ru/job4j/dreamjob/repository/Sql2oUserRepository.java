@@ -1,7 +1,10 @@
 package ru.job4j.dreamjob.repository;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import org.sql2o.Sql2o;
+import org.sql2o.Sql2oException;
 import ru.job4j.dreamjob.model.User;
 
 import java.util.Collection;
@@ -9,6 +12,8 @@ import java.util.Optional;
 
 @Repository
 public class Sql2oUserRepository implements UserRepository {
+
+    private static final Logger LOG = LoggerFactory.getLogger(Sql2oUserRepository.class);
 
     private final Sql2o sql2o;
 
@@ -29,7 +34,10 @@ public class Sql2oUserRepository implements UserRepository {
                     .addParameter("password", user.getPassword());
             int generatedId = query.executeUpdate().getKey(Integer.class);
             user.setId(generatedId);
-            return Optional.ofNullable(user);
+            return Optional.of(user);
+        } catch (Sql2oException e) {
+            LOG.error("SQL EXCEPTION LOGGED: {}", e.getMessage());
+            return Optional.empty();
         }
     }
 

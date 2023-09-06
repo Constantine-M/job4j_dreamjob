@@ -40,7 +40,7 @@ class Sql2oUserRepositoryTest {
     }
 
     @Test
-    void whenSaveCandidateThenGetSame() {
+    void whenSaveUserThenGetSame() {
         var user = new User(0, "test", "Consta", "123");
         var savedUser = sql2oUserRepository.save(user);
         var expectedUser = sql2oUserRepository.findByEmailAndPassword(user.getEmail(), user.getPassword());
@@ -48,12 +48,10 @@ class Sql2oUserRepositoryTest {
     }
 
     @Test
-    void whenSaveTheSameUserTwiceThenGetException() {
+    void whenSaveUserWithTheSameEmailThenGetNothing() {
         var user = new User(0, "test", "Consta", "123");
         sql2oUserRepository.save(user);
-        assertThrows(Sql2oException.class, () -> {
-            sql2oUserRepository.save(user);
-        });
+        assertThat(sql2oUserRepository.save(user)).isEqualTo(Optional.empty());
     }
 
     @Test
