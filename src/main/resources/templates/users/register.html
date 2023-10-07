@@ -22,9 +22,16 @@
                 <label for="name" class="form-label"><b>Имя</b></label>
                 <input type="text" class="form-control" id="name" name="name" placeholder="Тихон" required>
             </div>
+            <!--    Для почты была прописана валидация на стороне сервера.
+                    Здесь мы указали, что поле недопустимо с помощью "is-invalid".
+                    Чтобы указать, что недопустимая обратная связь/сообщение об ошибке связано с соответствующим полем формы,
+                    мы добавили aria-describedby="emailFeedback".
+                    И чтобы вывести текст ошибки, добавили строку
+                    <div id="emailFeedback" class="invalid-feedback" th:text="${message}">  -->
             <div class="mb-3">
                 <label for="email" class="form-label"><b>Почта</b></label>
-                <input type="text" class="form-control" id="email" name="email" placeholder="svetogor@mail.ru" required>
+                <input type="text" class="form-control is-invalid" id="email" aria-describedby="emailFeedback" name="email" placeholder="svetogor@mail.ru" required>
+                <div id="emailFeedback" class="invalid-feedback" th:text="${message}">
             </div>
             <div class="mb-3">
                 <label for="password" class="form-label"><b>Пароль</b></label>
