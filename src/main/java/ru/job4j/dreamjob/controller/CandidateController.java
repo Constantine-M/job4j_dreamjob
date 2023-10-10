@@ -1,11 +1,13 @@
 package ru.job4j.dreamjob.controller;
 
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.job4j.dreamjob.dto.FileDto;
 import ru.job4j.dreamjob.model.Candidate;
+import ru.job4j.dreamjob.model.User;
 import ru.job4j.dreamjob.service.CandidateService;
 import ru.job4j.dreamjob.service.CityService;
 import ru.job4j.dreamjob.service.FileService;
@@ -29,7 +31,8 @@ public class CandidateController {
     }
 
     @GetMapping
-    public String getAll(Model model) {
+    public String getAll(Model model, HttpSession session) {
+        attachUserToSession(model, session);
         model.addAttribute("candidates", candidateService.findAll());
         return "candidates/list";
     }
@@ -44,7 +47,8 @@ public class CandidateController {
      * при открытии страниц.
      */
     @GetMapping("/create")
-    public String getCreationPage(Model model) {
+    public String getCreationPage(Model model, HttpSession session) {
+        attachUserToSession(model, session);
         model.addAttribute("cities", cityService.findAll());
         return "candidates/create";
     }
@@ -79,7 +83,8 @@ public class CandidateController {
     @PostMapping("/create")
     public String create(@ModelAttribute Candidate candidate,
                          @RequestParam MultipartFile file,
-                         Model model) {
+                         Model model,
+                         HttpSession session) {
         try {
             candidateService.save(candidate, new FileDto(file.getOriginalFilename(), file.getBytes()));
             return "redirect:/candidates";
@@ -90,7 +95,10 @@ public class CandidateController {
     }
 
     @GetMapping("/{id}")
-    public String getByID(Model model, @PathVariable int id) {
+    public String getByID(Model model,
+                          @PathVariable int id,
+                          HttpSession session) {
+        attachUserToSession(model, session);
         var candidateOptional = candidateService.findById(id);
         if (candidateOptional.isEmpty()) {
             model.addAttribute("message", "Кандидат с указанным идентификатором не найден");
@@ -126,5 +134,24 @@ public class CandidateController {
             return "errors/404";
         }
         return "redirect:/candidates";
+    }
+
+    /**
+     * Данный метод прикрепляет пользователя
+     * к сессии.
+     *
+     * Если в {@link HttpSession} нет объекта
+     * {@link User}, то мы создаем объект User
+     * с анонимным пользователем (т.е. пользователь
+     * становится гостем).
+     */
+    private void attachUserToSession(Model model,
+                                     HttpSession session) {
+        var user = (User) session.getAttribute("user");
+        if (user == null) {
+            user = new User();
+            user.setName("Гость");
+        }
+        model.addAttribute("user", user);
     }
 }

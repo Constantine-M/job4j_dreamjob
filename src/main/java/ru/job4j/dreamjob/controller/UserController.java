@@ -1,5 +1,7 @@
 package ru.job4j.dreamjob.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +25,9 @@ public class UserController {
      * html страничку.
      */
     @GetMapping("/register")
-    public String getRegistrationPage() {
+    public String getRegistrationPage(Model model,
+                                      HttpSession session) {
+        attachUserToSession(model, session);
         return "users/register";
     }
 
@@ -39,18 +43,84 @@ public class UserController {
     }
 
     @GetMapping("/login")
-    public String getLoginPage() {
+    public String getLoginPage(Model model,
+                               HttpSession session) {
+        attachUserToSession(model, session);
         return "users/login";
     }
 
+    /**
+     * Данный метод обрабатывает запрос на
+     * авторизацию пользователя.
+     *
+     * Чтобы закрепить открытую сессию
+     * за пользователем, воспользуемся
+     * интерфейсом {@link HttpServletRequest}
+     * и получим сессию.
+     *
+     * Метод {@link HttpServletRequest#getSession()}
+     * вернет нам объект {@link HttpSession}.
+     *
+     * А затем добавим данные в сессию
+     * с помощью метода {@link HttpSession#setAttribute}.
+     * Например, добавим туда пользователя.
+     * Т.о. мы закрепили пользователя за сессией.
+     * Данные сессии привязываются к клиенту
+     * и доступны во всем приложении.
+     *
+     * Обратите внимание, что внутри HttpSession
+     * используется многопоточная коллекция
+     * ConcurrentHashMap. Это связано с многопоточным
+     * окружением. Увидеть это можно в реализации
+     * модуля catalina -> session
+     * {@link org.apache.catalina.session.StandardSession}.
+     */
     @PostMapping("/login")
     public String loginUser(@ModelAttribute User user,
-                            Model model) {
+                            Model model,
+                            HttpServletRequest request) {
         var userOptional = userService.findByEmailAndPassword(user.getEmail(), user.getPassword());
         if (userOptional.isEmpty()) {
             model.addAttribute("error", "Почта или пароль введены неверно");
             return "users/login";
         }
+        var session = request.getSession();
+        session.setAttribute("user", userOptional.get());
         return "redirect:/vacancies";
+    }
+
+    /**
+     * Данный метод обрабатывает запрос
+     * пользователя, который закрывает сессию
+     * (разлогинивается).
+     *
+     * В данном случае, чтобы удалить
+     * все данные, связанные с пользователем,
+     * нужно использовать метод
+     * {@link HttpSession#invalidate()}.
+     */
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "redirect:/users/login";
+    }
+
+    /**
+     * Данный метод прикрепляет пользователя
+     * к сессии.
+     *
+     * Если в {@link HttpSession} нет объекта
+     * {@link User}, то мы создаем объект User
+     * с анонимным пользователем (т.е. пользователь
+     * становится гостем).
+     */
+    private void attachUserToSession(Model model,
+                                     HttpSession session) {
+        var user = (User) session.getAttribute("user");
+        if (user == null) {
+            user = new User();
+            user.setName("Гость");
+        }
+        model.addAttribute("user", user);
     }
 }
