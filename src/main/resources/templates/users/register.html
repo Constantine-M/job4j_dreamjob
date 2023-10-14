@@ -12,7 +12,6 @@
     <title>Регистрация</title>
 </head>
 <body>
-<div class="container-fluid p-0">
     <!--    С помощью тега <header> и атрибута insert мы вставляем общий компонент страницы (блок навигации, который мы вынесли отдельно)-->
     <header th:insert="blocks/header :: header"></header>
     <div class="container">
@@ -31,7 +30,7 @@
             <div class="mb-3">
                 <label for="email" class="form-label"><b>Почта</b></label>
                 <input type="text" class="form-control is-invalid" id="email" aria-describedby="emailFeedback" name="email" placeholder="svetogor@mail.ru" required>
-                <div id="emailFeedback" class="invalid-feedback" th:text="${message}">
+                <div id="emailFeedback" class="invalid-feedback" th:text="${message}"></div>
             </div>
             <div class="mb-3">
                 <label for="password" class="form-label"><b>Пароль</b></label>
@@ -50,6 +49,5 @@
     </div>
     <!--    Вызов Footer добавляется в конце HTML страницы -->
     <footer th:insert="blocks/footer :: footer"></footer>
-</div>
 </body>
 </html>

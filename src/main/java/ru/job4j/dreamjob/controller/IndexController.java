@@ -9,23 +9,8 @@ import ru.job4j.dreamjob.model.User;
 @Controller
 public class IndexController {
 
-    /**
-     * В данном методе примечательно то,
-     * что мы можем создать объект
-     * {@link User} с анонимным пользователем.
-     *
-     * Благодаря Spring, мы можем получить
-     * объект {@link HttpSession} как параметр.
-     */
     @GetMapping({"/", "/index"})
-    public String getIndex(Model model,
-                           HttpSession session) {
-        var user = (User) session.getAttribute("user");
-        if (user == null) {
-            user = new User();
-            user.setName("Гость");
-        }
-        model.addAttribute("user", user);
+    public String getIndex() {
         return "index";
     }
 }

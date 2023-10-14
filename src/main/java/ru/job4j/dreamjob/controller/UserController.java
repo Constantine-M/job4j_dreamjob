@@ -25,9 +25,7 @@ public class UserController {
      * html страничку.
      */
     @GetMapping("/register")
-    public String getRegistrationPage(Model model,
-                                      HttpSession session) {
-        attachUserToSession(model, session);
+    public String getRegistrationPage() {
         return "users/register";
     }
 
@@ -43,9 +41,7 @@ public class UserController {
     }
 
     @GetMapping("/login")
-    public String getLoginPage(Model model,
-                               HttpSession session) {
-        attachUserToSession(model, session);
+    public String getLoginPage() {
         return "users/login";
     }
 
@@ -77,15 +73,12 @@ public class UserController {
      */
     @PostMapping("/login")
     public String loginUser(@ModelAttribute User user,
-                            Model model,
-                            HttpServletRequest request) {
+                            Model model) {
         var userOptional = userService.findByEmailAndPassword(user.getEmail(), user.getPassword());
         if (userOptional.isEmpty()) {
             model.addAttribute("error", "Почта или пароль введены неверно");
             return "users/login";
         }
-        var session = request.getSession();
-        session.setAttribute("user", userOptional.get());
         return "redirect:/vacancies";
     }
 
@@ -103,24 +96,5 @@ public class UserController {
     public String logout(HttpSession session) {
         session.invalidate();
         return "redirect:/users/login";
-    }
-
-    /**
-     * Данный метод прикрепляет пользователя
-     * к сессии.
-     *
-     * Если в {@link HttpSession} нет объекта
-     * {@link User}, то мы создаем объект User
-     * с анонимным пользователем (т.е. пользователь
-     * становится гостем).
-     */
-    private void attachUserToSession(Model model,
-                                     HttpSession session) {
-        var user = (User) session.getAttribute("user");
-        if (user == null) {
-            user = new User();
-            user.setName("Гость");
-        }
-        model.addAttribute("user", user);
     }
 }
