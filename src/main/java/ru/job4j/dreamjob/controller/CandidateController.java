@@ -1,13 +1,11 @@
 package ru.job4j.dreamjob.controller;
 
-import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.job4j.dreamjob.dto.FileDto;
 import ru.job4j.dreamjob.model.Candidate;
-import ru.job4j.dreamjob.model.User;
 import ru.job4j.dreamjob.service.CandidateService;
 import ru.job4j.dreamjob.service.CityService;
 import ru.job4j.dreamjob.service.FileService;
@@ -81,8 +79,7 @@ public class CandidateController {
     @PostMapping("/create")
     public String create(@ModelAttribute Candidate candidate,
                          @RequestParam MultipartFile file,
-                         Model model,
-                         HttpSession session) {
+                         Model model) {
         try {
             candidateService.save(candidate, new FileDto(file.getOriginalFilename(), file.getBytes()));
             return "redirect:/candidates";
