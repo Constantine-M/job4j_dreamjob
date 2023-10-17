@@ -73,12 +73,14 @@ public class UserController {
      */
     @PostMapping("/login")
     public String loginUser(@ModelAttribute User user,
-                            Model model) {
+                            Model model,
+                            HttpSession session) {
         var userOptional = userService.findByEmailAndPassword(user.getEmail(), user.getPassword());
         if (userOptional.isEmpty()) {
             model.addAttribute("error", "Почта или пароль введены неверно");
             return "users/login";
         }
+        session.setAttribute("user", userOptional.get());
         return "redirect:/vacancies";
     }
 
