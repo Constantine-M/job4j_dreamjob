@@ -8,7 +8,6 @@ import ru.job4j.dreamjob.dto.FileDto;
 import ru.job4j.dreamjob.model.Candidate;
 import ru.job4j.dreamjob.service.CandidateService;
 import ru.job4j.dreamjob.service.CityService;
-import ru.job4j.dreamjob.service.FileService;
 
 @Controller
 @RequestMapping("/candidates")
@@ -23,7 +22,7 @@ public class CandidateController {
 
     private final CityService cityService;
 
-    public CandidateController(CandidateService candidateService, CityService cityService, FileService fileService) {
+    public CandidateController(CandidateService candidateService, CityService cityService) {
         this.candidateService = candidateService;
         this.cityService = cityService;
     }
@@ -84,8 +83,8 @@ public class CandidateController {
             candidateService.save(candidate, new FileDto(file.getOriginalFilename(), file.getBytes()));
             return "redirect:/candidates";
         } catch (Exception exception) {
-            model.addAttribute(exception.getMessage());
-            return "/errors/404";
+            model.addAttribute("message", exception.getMessage());
+            return "errors/404";
         }
     }
 
